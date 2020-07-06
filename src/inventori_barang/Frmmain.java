@@ -121,6 +121,7 @@ public final class Frmmain extends javax.swing.JFrame {
                 return false;
             }
         };
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -192,6 +193,13 @@ public final class Frmmain extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(datatable);
 
+        jButton1.setText("menu user");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout dialogBackground1Layout = new javax.swing.GroupLayout(dialogBackground1);
         dialogBackground1.setLayout(dialogBackground1Layout);
         dialogBackground1Layout.setHorizontalGroup(
@@ -205,6 +213,8 @@ public final class Frmmain extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE))
                     .addGroup(dialogBackground1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(120, 120, 120)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -223,7 +233,9 @@ public final class Frmmain extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(dialogBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(dialogBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1)))
                 .addGap(29, 29, 29)
                 .addGroup(dialogBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dialogBackground1Layout.createSequentialGroup()
@@ -341,8 +353,7 @@ public final class Frmmain extends javax.swing.JFrame {
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         // TODO add your handling code here:
-        new Frmloginuser().setVisible(true);
-        this.dispose();
+        new Frmuser(this, rootPaneCheckingEnabled).show();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
@@ -401,6 +412,11 @@ public final class Frmmain extends javax.swing.JFrame {
 //        new FrmtransaksiMasuk(this, rootPaneCheckingEnabled).show();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         new FrmmainUser().show();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -440,6 +456,7 @@ public final class Frmmain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable datatable;
     private inventori_barang.ui.DialogBackground dialogBackground1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;

@@ -301,7 +301,7 @@ public class FrmakunUser extends javax.swing.JDialog {
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, "Error " + e);
                     } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(Frmpetugas.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else{
                     JOptionPane.showMessageDialog(null, "Ulangi password lama salah.");

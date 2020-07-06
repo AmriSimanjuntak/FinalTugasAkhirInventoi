@@ -103,17 +103,6 @@ public class Frmuser extends javax.swing.JDialog {
         }
     }
     
-    static String sha1(String input) throws NoSuchAlgorithmException {
-        MessageDigest mDigest = MessageDigest.getInstance("SHA1");
-        byte[] result = mDigest.digest(input.getBytes());
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < result.length; i++) {
-            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
-        }
-         
-        return sb.toString();
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -154,8 +143,6 @@ public class Frmuser extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         txtcpassword = new javax.swing.JPasswordField();
         txtpassword = new javax.swing.JPasswordField();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         datatable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -548,11 +535,11 @@ public class Frmuser extends javax.swing.JDialog {
         }
         else
         {
-            try {
-                row_txtpassword = sha1(Arrays.toString(txtpassword.getPassword()));
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                row_txtpassword = sha1(Arrays.toString(txtpassword.getPassword()));
+//            } catch (NoSuchAlgorithmException ex) {
+//                Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
+//            }
             String row_txtunit = txtunit.getSelectedItem().toString();
             int c_kode = 0;
 
