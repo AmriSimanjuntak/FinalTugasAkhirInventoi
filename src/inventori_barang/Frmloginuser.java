@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import javax.swing.ImageIcon;
-
 /**
  *
  * @author amris
@@ -87,7 +86,7 @@ public final class Frmloginuser extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(182, 229, 251));
-        jLabel8.setText("INVENTORI BARANG");
+        jLabel8.setText("LOGIN PENGGUNA");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,7 +159,7 @@ public final class Frmloginuser extends javax.swing.JFrame {
         try {
             Connection conn = konek.openkoneksi();
             java.sql.Statement stm = conn.createStatement();
-            java.sql.ResultSet rsLogin = stm.executeQuery("SELECT * FROM tmuser WHERE username = '" + row_txtusername + "' AND password = '" + row_txtpassword);
+            java.sql.ResultSet rsLogin = stm.executeQuery("SELECT * FROM tmuser WHERE username = '" + row_txtusername + "' AND password = '" + row_txtpassword + "' and status = 'aktif'");
 
             rsLogin.next();
             rsLogin.last();

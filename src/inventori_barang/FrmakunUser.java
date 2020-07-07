@@ -7,7 +7,6 @@ package inventori_barang;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.security.MessageDigest;
@@ -18,18 +17,22 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
 /**
  *
  * @author amris
-  * @param parent
-  * @param modal
+  
  */
 public class FrmakunUser extends javax.swing.JDialog {
 
     /**
      * Creates new form FrmakunUser
+     * @param parent
+     * @param modal
      */
+    
+    inventori_barang.koneksi konek = new inventori_barang.koneksi();
+    inventori_barang.UserSession UserSession = new inventori_barang.UserSession();
+    
     public FrmakunUser(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -40,8 +43,7 @@ public class FrmakunUser extends javax.swing.JDialog {
         lblusername.setText(": " + UserSession.getU_username());
         lblpassword.setText(": ***********");
     }
-    inventori_barang.koneksi konek = new inventori_barang.koneksi();
-    inventori_barang.UserSession UserSession = new inventori_barang.UserSession();
+    
 
     
     
@@ -270,21 +272,21 @@ public class FrmakunUser extends javax.swing.JDialog {
         try {
             row_txtpassword_lama = sha1(Arrays.toString(txtpassword_lama.getPassword()));
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Frmakun.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmakunUser.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         String row_txtpassword = null;
         try {
             row_txtpassword = sha1(Arrays.toString(txtpassword.getPassword()));
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Frmakun.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmakunUser.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         String row_txtcpassword = null;
         try {
             row_txtcpassword = sha1(Arrays.toString(txtcpassword.getPassword()));
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Frmakun.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmakunUser.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if(!"".equals(row_txtpassword_lama) && !"".equals(row_txtpassword) && !"".equals(row_txtcpassword)){
@@ -317,7 +319,7 @@ public class FrmakunUser extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+   public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -342,6 +344,22 @@ public class FrmakunUser extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FrmakunUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrmakunUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FrmakunUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FrmakunUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Frmakun dialog = new Frmakun(new javax.swing.JFrame(), true);

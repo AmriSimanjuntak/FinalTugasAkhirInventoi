@@ -22,7 +22,7 @@ import net.sf.jasperreports.view.*;
 
 /**
  *
- * @author muhamadyusuf
+ * @author amris
  */
 public class Frmlaporan extends javax.swing.JDialog {
 

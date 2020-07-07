@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 /**
  *
- * @author muhamadyusuf
+ * @author amris
  */
 
 public class FrmbarangKategori extends javax.swing.JDialog {
@@ -165,7 +165,7 @@ public class FrmbarangKategori extends javax.swing.JDialog {
         jLabel2.setText("Nama");
 
         jLabel4.setLabelFor(txtno_rak);
-        jLabel4.setText("No Rak");
+        jLabel4.setText("No.Kategori");
 
         txtnama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -388,7 +388,7 @@ public class FrmbarangKategori extends javax.swing.JDialog {
                     .addComponent(lblcount_rows)
                     .addComponent(jLabel7)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

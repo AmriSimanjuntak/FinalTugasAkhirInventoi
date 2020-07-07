@@ -7,7 +7,7 @@ package inventori_barang;
 
 /**
  *
- * @author muhamadyusuf
+ * @author amris
  */
 import net.sf.jasperreports.view.*;
 import net.sf.jasperreports.engine.design.*;

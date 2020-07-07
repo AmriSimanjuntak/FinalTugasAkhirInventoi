@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 /**
  *
- * @author muhamadyusuf
+ * @author amris
  */
 
 public class Frmbarang extends javax.swing.JDialog {

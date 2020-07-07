@@ -21,7 +21,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 /**
  *
- * @author muhamadyusuf
+ * @author amris
  */
 
 public class Frmpetugas extends javax.swing.JDialog {

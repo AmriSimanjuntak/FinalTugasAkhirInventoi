@@ -7,7 +7,7 @@ package inventori_barang;
 
 /**
  *
- * @author muhamadyusuf
+ * @author amris
  */
 public class PetugasSession {
     private static int u_id;

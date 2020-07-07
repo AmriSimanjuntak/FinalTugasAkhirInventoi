@@ -201,7 +201,8 @@ public final class FrmloginPetugas extends javax.swing.JFrame {
 
     private void btnloginuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginuserActionPerformed
         // TODO add your handling code here:
-        new Frmloginuser().show();
+        new Frmloginuser().setVisible(true);
+                this.dispose();
     }//GEN-LAST:event_btnloginuserActionPerformed
 
     static String sha1(String input) throws NoSuchAlgorithmException {

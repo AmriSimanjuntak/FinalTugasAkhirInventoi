@@ -22,14 +22,14 @@ import java.security.NoSuchAlgorithmException;
 /**
  *
  * @author amris
- * @param parent
- * @param modal
+ 
  */
 public class Frmuser extends javax.swing.JDialog {
 
     /**
      * Creates new form Frmuser
-     
+     * @param parent
+     * @param modal
      */
     inventori_barang.koneksi konek = new inventori_barang.koneksi();
     inventori_barang.UserSession UserSession = new inventori_barang.UserSession();
@@ -62,7 +62,7 @@ public class Frmuser extends javax.swing.JDialog {
         txtusername.setText("");
         txtpassword.setText("");
         txtcpassword.setText("");
-        txtunit.setSelectedItem("dosen");
+        txtstatus.setSelectedItem("aktif");
         txttemp_username.setText("");
     }
     
@@ -75,7 +75,7 @@ public class Frmuser extends javax.swing.JDialog {
         try {
             Connection conn = konek.openkoneksi();
             java.sql.Statement stm = conn.createStatement();
-            java.sql.ResultSet sql = stm.executeQuery("SELECT tmuser.id, tmuser.nama, tmuser.username, tmuser.unit FROM tmuser");
+            java.sql.ResultSet sql = stm.executeQuery("SELECT tmuser.id, tmuser.nama, tmuser.username, tmuser.unit, tmuser.status FROM tmuser");
             datatable.setModel(DbUtils.resultSetToTableModel(sql));
             datatable.getColumnModel().getColumn(0).setPreferredWidth(35);
             datatable.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -102,7 +102,16 @@ public class Frmuser extends javax.swing.JDialog {
             btndelete.setEnabled(false);
         }
     }
-    
+    static String sha1(String input) throws NoSuchAlgorithmException {
+        MessageDigest mDigest = MessageDigest.getInstance("SHA1");
+        byte[] result = mDigest.digest(input.getBytes());
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+         
+        return sb.toString();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -139,10 +148,12 @@ public class Frmuser extends javax.swing.JDialog {
         txtusername = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         btncancel = new javax.swing.JButton();
-        txtunit = new javax.swing.JComboBox<>();
+        txtstatus = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         txtcpassword = new javax.swing.JPasswordField();
         txtpassword = new javax.swing.JPasswordField();
+        jLabel9 = new javax.swing.JLabel();
+        txtkerja = new javax.swing.JTextField();
 
         datatable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,11 +167,14 @@ public class Frmuser extends javax.swing.JDialog {
             }
         ));
         datatable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                datatableMouseReleased(evt);
-            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 datatableMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                datatableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                datatableMouseReleased(evt);
             }
         });
         datatable.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -289,10 +303,10 @@ public class Frmuser extends javax.swing.JDialog {
             }
         });
 
-        txtunit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "dosen", "staff" }));
-        txtunit.addActionListener(new java.awt.event.ActionListener() {
+        txtstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "aktif", "nonaktif" }));
+        txtstatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtunitActionPerformed(evt);
+                txtstatusActionPerformed(evt);
             }
         });
 
@@ -304,6 +318,19 @@ public class Frmuser extends javax.swing.JDialog {
             }
         });
 
+        jLabel9.setText("Status");
+
+        txtkerja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtkerjaActionPerformed(evt);
+            }
+        });
+        txtkerja.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtkerjaKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -312,10 +339,11 @@ public class Frmuser extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 85, Short.MAX_VALUE)
                         .addComponent(btncancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnsave, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnsave, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -328,39 +356,48 @@ public class Frmuser extends javax.swing.JDialog {
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtusername, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtpassword, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtunit, javax.swing.GroupLayout.Alignment.TRAILING, 0, 179, Short.MAX_VALUE)
                             .addComponent(txtcpassword)
-                            .addComponent(txtnama))))
-                .addGap(14, 14, 14))
+                            .addComponent(txtnama)
+                            .addComponent(txtkerja)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(58, 58, 58)
+                        .addComponent(txtstatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtnama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtcpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtkerja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addComponent(txtstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtnama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtcpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtunit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnsave)
-                    .addComponent(btncancel))
-                .addGap(508, 508, 508))
+                    .addComponent(btncancel)
+                    .addComponent(btnsave))
+                .addGap(481, 481, 481))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -379,7 +416,7 @@ public class Frmuser extends javax.swing.JDialog {
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(6, 6, 6)
                                     .addComponent(lblcount_rows, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
                                     .addComponent(jLabel7)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -396,8 +433,9 @@ public class Frmuser extends javax.swing.JDialog {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(lbl_action)
-                                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txttemp_username, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txttemp_username, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(7, 7, 7)))
                     .addGap(8, 8, 8)))
         );
         layout.setVerticalGroup(
@@ -419,7 +457,7 @@ public class Frmuser extends javax.swing.JDialog {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(lbl_action)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txttemp_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -494,9 +532,9 @@ public class Frmuser extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtcpasswordKeyReleased
 
-    private void txtunitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtunitActionPerformed
+    private void txtstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtstatusActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtunitActionPerformed
+    }//GEN-LAST:event_txtstatusActionPerformed
 
     private void btncancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelActionPerformed
         // TODO add your handling code here:
@@ -528,6 +566,7 @@ public class Frmuser extends javax.swing.JDialog {
         String row_txtusername = txtusername.getText();
         String row_txtpassword = Arrays.toString(txtpassword.getPassword());
         String row_txtcpassword = Arrays.toString(txtcpassword.getPassword());
+        String row_txtkerja = txtkerja.getText();
         if(!(row_txtpassword.equals(row_txtcpassword))){
             JOptionPane.showMessageDialog(null, "Konfirmasi password berbeda dengan inputan password", "Gagal Disimpan", JOptionPane.ERROR_MESSAGE);
             txtcpassword.setText("");
@@ -535,12 +574,12 @@ public class Frmuser extends javax.swing.JDialog {
         }
         else
         {
-//            try {
-//                row_txtpassword = sha1(Arrays.toString(txtpassword.getPassword()));
-//            } catch (NoSuchAlgorithmException ex) {
-//                Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-            String row_txtunit = txtunit.getSelectedItem().toString();
+            try {
+                row_txtpassword = sha1(Arrays.toString(txtpassword.getPassword()));
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String row_txtstatus = txtstatus.getSelectedItem().toString();
             int c_kode = 0;
 
             if(!"".equals(row_txtnama) && !"".equals(row_txtusername) && !"".equals(row_txtpassword)){
@@ -563,7 +602,7 @@ public class Frmuser extends javax.swing.JDialog {
                         try {
                             Connection conn = konek.openkoneksi();
                             java.sql.Statement stm = conn.createStatement();
-                            stm.executeUpdate("INSERT INTO tmuser(nama, username, password, unit) VALUES ('" + row_txtnama + "', '" + row_txtusername + "', '" + row_txtpassword + "', '" + row_txtunit + "')");
+                            stm.executeUpdate("INSERT INTO tmuser(nama, username, password, unit, status) VALUES ('" + row_txtnama + "', '" + row_txtusername + "', '" + row_txtpassword + "', '" + row_txtkerja + "', '" + row_txtstatus + "')");
                             JOptionPane.showMessageDialog(null, "Berhasil menyimpan data.");
                             btnadd.doClick();
                             konek.closekoneksi();
@@ -583,7 +622,7 @@ public class Frmuser extends javax.swing.JDialog {
                         try {
                             Connection conn = konek.openkoneksi();
                             java.sql.Statement stm = conn.createStatement();
-                            stm.executeUpdate("UPDATE tmuser SET nama='" + row_txtnama + "',username='" + row_txtusername + "',password='" + row_txtpassword + "',unit='" + row_txtunit + "' WHERE id = '" + row_id + "'");
+                            stm.executeUpdate("UPDATE tmuser SET nama='" + row_txtnama + "',username='" + row_txtusername + "',password='" + row_txtpassword + "',unit='" + row_txtkerja + "',status='" + row_txtstatus + "' WHERE id = '" + row_id + "'");
                             JOptionPane.showMessageDialog(null, "Berhasil mengubah data.");
                             btnadd.doClick();
                             konek.closekoneksi();
@@ -612,7 +651,7 @@ public class Frmuser extends javax.swing.JDialog {
                 btnsave.setText("Simpan Perubahan");
                 Connection conn = konek.openkoneksi();
                 java.sql.Statement stm = conn.createStatement();
-                java.sql.ResultSet sql = stm.executeQuery("SELECT tmuser.id, tmuser.nama, tmuser.username, tmuser.unit FROM tmuser WHERE tmuser.id='"+row_id+"'");
+                java.sql.ResultSet sql = stm.executeQuery("SELECT tmuser.id, tmuser.nama, tmuser.username, tmuser.unit, tmuser.status FROM tmuser WHERE tmuser.id='"+row_id+"'");
                 if(sql.next()){
                     lbl_action.setForeground(new Color(43, 152, 240));
                     String kode = sql.getString("username");
@@ -620,7 +659,8 @@ public class Frmuser extends javax.swing.JDialog {
                     txtid.setText(sql.getString("id"));
                     txtnama.setText(sql.getString("nama"));
                     txtusername.setText(kode);
-                    txtunit.setSelectedItem(sql.getString("unit"));
+                    txtkerja.setText(sql.getString("unit"));
+                    txtstatus.setSelectedItem(sql.getString("status"));
                     txttemp_username.setText(kode);
                     txtnama.requestFocus();
                 }
@@ -634,6 +674,18 @@ public class Frmuser extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Terdapat kesalahan id null!");
         }
     }//GEN-LAST:event_btneditActionPerformed
+
+    private void txtkerjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtkerjaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtkerjaActionPerformed
+
+    private void txtkerjaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtkerjaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtkerjaKeyTyped
+
+    private void datatableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datatableMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_datatableMousePressed
 
     /**
      * @param args the command line arguments
@@ -697,6 +749,7 @@ public class Frmuser extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -705,10 +758,11 @@ public class Frmuser extends javax.swing.JDialog {
     private javax.swing.JPanel panel;
     private javax.swing.JPasswordField txtcpassword;
     private javax.swing.JTextPane txtid;
+    private javax.swing.JTextField txtkerja;
     private javax.swing.JTextField txtnama;
     private javax.swing.JPasswordField txtpassword;
+    private javax.swing.JComboBox<String> txtstatus;
     private javax.swing.JTextField txttemp_username;
-    private javax.swing.JComboBox<String> txtunit;
     private javax.swing.JTextField txtusername;
     // End of variables declaration//GEN-END:variables
 }

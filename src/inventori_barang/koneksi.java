@@ -7,7 +7,7 @@ package inventori_barang;
 
 /**
  *
- * @author muhamadyusuf
+ * @author amris
  */
 
 import java.sql.*;

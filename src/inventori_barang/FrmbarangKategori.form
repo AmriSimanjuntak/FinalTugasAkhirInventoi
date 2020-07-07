@@ -208,7 +208,7 @@
             <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="txtno_rak"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="No Rak"/>
+            <Property name="text" type="java.lang.String" value="No.Kategori"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtnama">

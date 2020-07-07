@@ -269,7 +269,7 @@ public class FrmmainUser extends javax.swing.JFrame {
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         // TODO add your handling code here:
-        new Frmakun(this, rootPaneCheckingEnabled).show();
+        new FrmakunUser(this, rootPaneCheckingEnabled).show();
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed

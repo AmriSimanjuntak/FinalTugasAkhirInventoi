@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author muhamadyusuf
+ * @author amris
  */
 public class Frmakun extends javax.swing.JDialog {
 

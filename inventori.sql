@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Jul 2020 pada 11.37
+-- Waktu pembuatan: 07 Jul 2020 pada 17.46
 -- Versi server: 10.4.11-MariaDB
 -- Versi PHP: 7.3.15
 
@@ -53,7 +53,8 @@ INSERT INTO `tmbarang` (`id`, `kode`, `nama`, `id_kategori`, `satuan`, `stok`) V
 (15, 'M-002', 'MacBook Pro 17 Inch', 6, 'Buah', 19),
 (16, 'C-001', 'Acer Aspire One 15 Inch', 8, 'Buah', 15),
 (17, 'C-002', 'Acer Aspire One 18 Inch', 8, 'Buah', 6),
-(18, 'A-002', 'Simbada Type C3', 3, 'Buah', 68);
+(18, 'A-002', 'Simbada Type C3', 3, 'Buah', 68),
+(19, 'g32h13', 'PC34inc', 9, '2', 2);
 
 -- --------------------------------------------------------
 
@@ -79,7 +80,34 @@ INSERT INTO `tmkategori` (`id`, `nama`, `no_rak`) VALUES
 (5, 'MacBook', 3),
 (6, 'MacBook Pro', 3),
 (7, 'MacBook Air', 3),
-(8, 'Laptop', 4);
+(8, 'Laptop', 4),
+(9, 'PC', 231);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tmpermintaan`
+--
+
+CREATE TABLE `tmpermintaan` (
+  `id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_status_permintaan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tmpermintaan_detail`
+--
+
+CREATE TABLE `tmpermintaan_detail` (
+  `id` int(11) NOT NULL,
+  `id_permintaan` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -106,6 +134,27 @@ INSERT INTO `tmpetugas` (`id`, `nama`, `username`, `password`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `tmstatus`
+--
+
+CREATE TABLE `tmstatus` (
+  `id_status_permintaan` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tmstatus`
+--
+
+INSERT INTO `tmstatus` (`id_status_permintaan`, `status`) VALUES
+(1, 'Menunggu'),
+(2, 'Disetujui'),
+(3, 'Ditolak'),
+(4, 'Diterima');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `tmuser`
 --
 
@@ -114,8 +163,18 @@ CREATE TABLE `tmuser` (
   `nama` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `unit` enum('dosen','staff') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `unit` varchar(100) NOT NULL,
+  `status` enum('aktif','nonaktif') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `tmuser`
+--
+
+INSERT INTO `tmuser` (`id`, `nama`, `username`, `password`, `unit`, `status`) VALUES
+(2, 'Melisa', 'melisa', '6d764e0722cf4852e77ac22bf76c97f9114d2d57', 'Dosen FITE', 'aktif'),
+(6, 'test', 'test', '495094f85ae8073b456c4b74a16feabbf8f1f0cc', 'dosen', 'aktif'),
+(7, 'herna', 'herna', 'c692b6e83d26e31d507049765d2e4b57976840a3', 'Dosen FITE', 'aktif');
 
 -- --------------------------------------------------------
 
@@ -195,10 +254,28 @@ ALTER TABLE `tmkategori`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `tmpermintaan`
+--
+ALTER TABLE `tmpermintaan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tmpermintaan_detail`
+--
+ALTER TABLE `tmpermintaan_detail`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `tmpetugas`
 --
 ALTER TABLE `tmpetugas`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tmstatus`
+--
+ALTER TABLE `tmstatus`
+  ADD PRIMARY KEY (`id_status_permintaan`);
 
 --
 -- Indeks untuk tabel `tmuser`
@@ -226,13 +303,25 @@ ALTER TABLE `trbarang_keluar_detail`
 -- AUTO_INCREMENT untuk tabel `tmbarang`
 --
 ALTER TABLE `tmbarang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `tmkategori`
 --
 ALTER TABLE `tmkategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT untuk tabel `tmpermintaan`
+--
+ALTER TABLE `tmpermintaan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tmpermintaan_detail`
+--
+ALTER TABLE `tmpermintaan_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tmpetugas`
@@ -241,10 +330,16 @@ ALTER TABLE `tmpetugas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT untuk tabel `tmstatus`
+--
+ALTER TABLE `tmstatus`
+  MODIFY `id_status_permintaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT untuk tabel `tmuser`
 --
 ALTER TABLE `tmuser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `trbarang_keluar`
