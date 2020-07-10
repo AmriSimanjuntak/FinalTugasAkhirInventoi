@@ -26,8 +26,7 @@ public class Frmakun extends javax.swing.JDialog {
 
     /**
      * Creates new form Frmakun
-     * @param parent
-     * @param modal
+
      */
     inventori_barang.koneksi konek = new inventori_barang.koneksi();
     inventori_barang.PetugasSession PetugasSession = new inventori_barang.PetugasSession();

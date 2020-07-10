@@ -25,8 +25,7 @@ public class FrmbarangKategori extends javax.swing.JDialog {
 
     /**
      * Creates new form Frmmaster_barang
-     * @param parent
-     * @param modal
+   
      */
     inventori_barang.koneksi konek = new inventori_barang.koneksi();
     

@@ -109,7 +109,6 @@ public final class Frmmain extends javax.swing.JFrame {
     private void initComponents() {
 
         dialogBackground1 = new inventori_barang.ui.DialogBackground();
-        jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         lblnama = new javax.swing.JLabel();
@@ -121,7 +120,6 @@ public final class Frmmain extends javax.swing.JFrame {
                 return false;
             }
         };
-        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -131,20 +129,10 @@ public final class Frmmain extends javax.swing.JFrame {
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inventori Barang");
-
-        jButton3.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/inventori_barang/img/print.png"))); // NOI18N
-        jButton3.setText("Cetak Laporan");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         jButton4.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/inventori_barang/img/lock.png"))); // NOI18N
@@ -193,13 +181,6 @@ public final class Frmmain extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(datatable);
 
-        jButton1.setText("menu user");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout dialogBackground1Layout = new javax.swing.GroupLayout(dialogBackground1);
         dialogBackground1.setLayout(dialogBackground1Layout);
         dialogBackground1Layout.setHorizontalGroup(
@@ -213,10 +194,6 @@ public final class Frmmain extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE))
                     .addGroup(dialogBackground1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(120, 120, 120)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(dialogBackground1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
@@ -231,11 +208,7 @@ public final class Frmmain extends javax.swing.JFrame {
             dialogBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dialogBackground1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(dialogBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(dialogBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1)))
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addGroup(dialogBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dialogBackground1Layout.createSequentialGroup()
@@ -309,14 +282,6 @@ public final class Frmmain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setText("Cetak Laporan");
-        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu4MouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(jMenu4);
-
         jMenu5.setText("Keluar");
         jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -368,16 +333,6 @@ public final class Frmmain extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        new Frmlaporan(this, rootPaneCheckingEnabled).show();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
-        // TODO add your handling code here:
-        new Frmlaporan(this, rootPaneCheckingEnabled).show();
-    }//GEN-LAST:event_jMenu4MouseClicked
-
     private void datatableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datatableMouseReleased
         // TODO add your handling code here:
         GetData_View();
@@ -409,13 +364,8 @@ public final class Frmmain extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-//        new FrmtransaksiMasuk(this, rootPaneCheckingEnabled).show();
+        new FrmDaftarPermintaan().show();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-         new FrmmainUser().show();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     
     /**
@@ -456,15 +406,12 @@ public final class Frmmain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable datatable;
     private inventori_barang.ui.DialogBackground dialogBackground1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem11;

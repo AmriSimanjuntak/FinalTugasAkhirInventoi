@@ -28,8 +28,7 @@ public class Frmlaporan extends javax.swing.JDialog {
 
     /**
      * Creates new form Frmlaporan
-     * @param parent
-     * @param modal
+
      */
     inventori_barang.koneksi konek = new inventori_barang.koneksi();
     inventori_barang.report report = new inventori_barang.report();
