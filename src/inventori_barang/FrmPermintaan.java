@@ -575,7 +575,7 @@ public class FrmPermintaan extends javax.swing.JDialog {
                     try {
                         Connection conn = konek.openkoneksi();
                         java.sql.Statement stm = conn.createStatement();
-                        stm.executeUpdate("INSERT INTO tmpermintaan_detail(id_permintaan, id_barang, jumlah, id_status_permintaan) VALUES ('" + id_permintaan + "', '" + id + "', '" + jumlah + "', '" + row_idstatus + "')");
+                        stm.executeUpdate("INSERT INTO tmpermintaan_detail(id_permintaan, id_barang, jumlah, id_status_permintaan, id_user) VALUES ('" + id_permintaan + "', '" + id + "', '" + jumlah + "', '" + row_idstatus + "', '" + row_iduser + "')");
                         empty = 1;
                         konek.closekoneksi();
                     } catch (SQLException e) {
