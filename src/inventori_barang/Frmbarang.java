@@ -117,7 +117,6 @@ public class Frmbarang extends javax.swing.JDialog {
         txtid.setText(row_id);
         BtnEnabled(true);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

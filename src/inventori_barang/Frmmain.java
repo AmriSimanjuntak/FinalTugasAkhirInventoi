@@ -364,7 +364,7 @@ public final class Frmmain extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        new FrmDaftarPermintaan().show();
+        new FrmDaftarPermintaan(this, rootPaneCheckingEnabled).show();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     

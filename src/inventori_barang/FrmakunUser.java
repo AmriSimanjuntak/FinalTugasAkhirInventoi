@@ -36,6 +36,7 @@ public class FrmakunUser extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         initUI();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         lblid.hide();
         lblid.setText(": " + Integer.toString(UserSession.getU_id()));
         lblnama.setText(": " + UserSession.getU_nama());
@@ -94,8 +95,6 @@ public class FrmakunUser extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel5.setText("Password");
@@ -263,6 +262,7 @@ public class FrmakunUser extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnsave_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsave_passwordActionPerformed

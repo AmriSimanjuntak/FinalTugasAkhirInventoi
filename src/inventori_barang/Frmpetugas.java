@@ -28,8 +28,7 @@ public class Frmpetugas extends javax.swing.JDialog {
 
     /**
      * Creates new form Frmmaster_barang
-     * @param parent
-     * @param modal
+     *  
      */
     inventori_barang.koneksi konek = new inventori_barang.koneksi();
     inventori_barang.PetugasSession PetugasSession = new inventori_barang.PetugasSession();

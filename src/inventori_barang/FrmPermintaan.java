@@ -150,7 +150,7 @@ public class FrmPermintaan extends javax.swing.JDialog {
 
         jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 22)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(182, 229, 251));
-        jLabel8.setText("Transaksi Barang Keluar");
+        jLabel8.setText("Form Permintaan Barang");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -575,7 +575,7 @@ public class FrmPermintaan extends javax.swing.JDialog {
                     try {
                         Connection conn = konek.openkoneksi();
                         java.sql.Statement stm = conn.createStatement();
-                        stm.executeUpdate("INSERT INTO tmpermintaan_detail(id_permintaan, id_barang, jumlah) VALUES ('" + id_permintaan + "', '" + id + "', '" + jumlah + "')");
+                        stm.executeUpdate("INSERT INTO tmpermintaan_detail(id_permintaan, id_barang, jumlah, id_status_permintaan) VALUES ('" + id_permintaan + "', '" + id + "', '" + jumlah + "', '" + row_idstatus + "')");
                         empty = 1;
                         konek.closekoneksi();
                     } catch (SQLException e) {

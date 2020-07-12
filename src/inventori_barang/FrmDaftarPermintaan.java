@@ -5,19 +5,110 @@
  */
 package inventori_barang;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author amris
  */
-public class FrmDaftarPermintaan extends javax.swing.JFrame {
+public class FrmDaftarPermintaan extends javax.swing.JDialog {
 
     /**
      * Creates new form FrmDaftarPermintaan
      */
-    public FrmDaftarPermintaan() {
+    inventori_barang.UserSession UserSession = new inventori_barang.UserSession();
+    inventori_barang.koneksi konek = new inventori_barang.koneksi();
+    
+    public FrmDaftarPermintaan(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
+        initUI();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        SelectStatus();
+        GetData();
+        BtnEnabled(false);
+        btnsave.setText("Simpan");
     }
 
+    private void initUI(){ 
+        getContentPane().setBackground(new Color(245, 245, 245));
+        
+        Dimension windowSize = getSize();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Point centerPoint = ge.getCenterPoint();
+        int dx = centerPoint.x - windowSize.width / 2;
+        int dy = centerPoint.y - windowSize.height / 2;    
+        setLocation(dx, dy);
+    }
+    private void SelectStatus(){
+        try {
+            Connection conn = konek.openkoneksi();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet rs = stm.executeQuery("SELECT * FROM tmstatus");
+            
+            cmbid_status.addItem("Pilih");
+            while(rs.next()){
+                cmbid_status.addItem(rs.getString("nama"));
+            }
+            konek.closekoneksi();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error " + e);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Frmbarang.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void TxtEmpty(){
+        txtid.setText("");
+        txtnama.setText("");
+        txtunit.setText("");
+        txtkode.setText("");
+        txtjumlah.setText("");
+        cmbid_status.setSelectedItem("Pilih");
+    }
+    
+    private void BtnEnabled(boolean x){
+        btnedit.setEnabled(x);
+        btndelete.setEnabled(x);
+    }
+    private void GetData(){
+        try {
+            Connection conn = konek.openkoneksi();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmpermintaan_detail.jumlah as jumlah, tmstatus.status as status FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang JOIN tmstatus ON tmstatus.id_status_permintaan = tmpermintaan_detail.id_status_permintaan");
+            datatable.setModel(DbUtils.resultSetToTableModel(sql));
+            datatable.getColumnModel().getColumn(0).setPreferredWidth(35);
+            datatable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            datatable.getColumnModel().getColumn(2).setPreferredWidth(90);
+            datatable.getColumnModel().getColumn(3).setPreferredWidth(80);
+            datatable.getColumnModel().getColumn(4).setPreferredWidth(80);
+
+            sql.last();
+            String count_rows = String.valueOf(sql.getRow());
+            lblcount_rows.setText("Jumlah Data : " + count_rows);
+            konek.closekoneksi();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error " + e);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void GetData_View(){
+        int row = datatable.getSelectedRow();
+        String row_id = (datatable.getModel().getValueAt(row, 0).toString());
+        txtid.setText(row_id);
+        BtnEnabled(true);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,36 +122,32 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
         txttemp_username = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        datatable = new javax.swing.JTable(){
-            public boolean isCellEditable(int rowIndex, int colIndex) {
-                return false;
-            }
-        };
         btnedit = new javax.swing.JButton();
         lblcount_rows = new javax.swing.JLabel();
         panel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnsave = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         txtnama = new javax.swing.JTextField();
-        txtusername = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         btncancel = new javax.swing.JButton();
-        txtstatus = new javax.swing.JComboBox<>();
+        cmbid_status = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        txtkerja = new javax.swing.JTextField();
-        txt_barang = new javax.swing.JTextField();
+        txtunit = new javax.swing.JTextField();
+        txtkode = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        txt_barang1 = new javax.swing.JTextField();
+        txtjumlah = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtid = new javax.swing.JTextPane();
         lbl_action = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jScrollPane1 = new javax.swing.JScrollPane();
+        datatable = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false;
+            }
+        };
 
         btndelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/inventori_barang/img/delete.png"))); // NOI18N
         btndelete.setText("Hapus");
@@ -82,7 +169,7 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -92,38 +179,6 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        datatable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Kode", "Nama", "Kategori", "Satuan", "Stok"
-            }
-        ));
-        datatable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                datatableMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                datatableMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                datatableMouseReleased(evt);
-            }
-        });
-        datatable.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                datatableKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                datatableKeyReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(datatable);
 
         btnedit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/inventori_barang/img/edit.png"))); // NOI18N
         btnedit.setText("Detail");
@@ -149,22 +204,9 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Username");
-
         txtnama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtnamaActionPerformed(evt);
-            }
-        });
-
-        txtusername.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtusernameActionPerformed(evt);
-            }
-        });
-        txtusername.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtusernameKeyTyped(evt);
             }
         });
 
@@ -177,37 +219,37 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
             }
         });
 
-        txtstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Menunggu", "Disetujui", "Ditolak" }));
-        txtstatus.addActionListener(new java.awt.event.ActionListener() {
+        cmbid_status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Menunggu", "Disetujui", "Ditolak" }));
+        cmbid_status.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtstatusActionPerformed(evt);
+                cmbid_statusActionPerformed(evt);
             }
         });
 
         jLabel9.setText("Status Permintaan");
 
-        txtkerja.addActionListener(new java.awt.event.ActionListener() {
+        txtunit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtkerjaActionPerformed(evt);
+                txtunitActionPerformed(evt);
             }
         });
-        txtkerja.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtunit.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtkerjaKeyTyped(evt);
+                txtunitKeyTyped(evt);
             }
         });
 
-        txt_barang.addActionListener(new java.awt.event.ActionListener() {
+        txtkode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_barangActionPerformed(evt);
+                txtkodeActionPerformed(evt);
             }
         });
 
         jLabel10.setText("Kode Barang");
 
-        txt_barang1.addActionListener(new java.awt.event.ActionListener() {
+        txtjumlah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_barang1ActionPerformed(evt);
+                txtjumlahActionPerformed(evt);
             }
         });
 
@@ -224,23 +266,20 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelLayout.createSequentialGroup()
                                 .addGap(16, 16, 16)
-                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtusername, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtnama)))
+                                .addComponent(txtnama))
                             .addGroup(panelLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_barang, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtkerja)))))
+                                    .addComponent(txtkode, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtunit)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)
-                        .addComponent(txt_barang1))
+                        .addComponent(txtjumlah))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelLayout.createSequentialGroup()
@@ -250,7 +289,7 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                                .addComponent(txtstatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmbid_status, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(15, 15, 15))
                             .addComponent(btnsave, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
@@ -264,26 +303,22 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtnama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtkerja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtunit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txt_barang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtkode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_barang1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtjumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
                 .addGap(13, 13, 13)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbid_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -315,6 +350,30 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         jLabel7.setText("Terpilih : ");
 
+        datatable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Kode", "Nama Barang", "Jumlah"
+            }
+        ));
+        datatable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        datatable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                datatableMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                datatableMouseReleased(evt);
+            }
+        });
+        datatable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                datatableKeyReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(datatable);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -325,26 +384,26 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
                 .addGap(72, 72, 72)
                 .addComponent(btndelete)
                 .addContainerGap(566, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(7, 7, 7)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(21, 21, 21)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGap(6, 6, 6)
+                                    .addGap(27, 27, 27)
                                     .addComponent(lblcount_rows, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel7)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(202, 202, 202)
-                                        .addComponent(jButton1))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(432, 432, 432)
+                                    .addComponent(jButton1)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(lbl_action)
@@ -360,7 +419,9 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btndelete)
                     .addComponent(btnedit))
-                .addContainerGap(435, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(127, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -368,15 +429,12 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(4, 4, 4)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lbl_action)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txttemp_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl_action)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(txttemp_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(47, 47, 47)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(lblcount_rows)
                         .addComponent(jLabel7)
@@ -392,29 +450,6 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
      
     }//GEN-LAST:event_btndeleteActionPerformed
 
-    private void datatableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datatableMouseClicked
-        // TODO add your handling code here:
-//        GetData_View();
-    }//GEN-LAST:event_datatableMouseClicked
-
-    private void datatableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datatableMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_datatableMousePressed
-
-    private void datatableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datatableMouseReleased
-        // TODO add your handling code here:
-//        GetData_View();
-    }//GEN-LAST:event_datatableMouseReleased
-
-    private void datatableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_datatableKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_datatableKeyPressed
-
-    private void datatableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_datatableKeyReleased
-        // TODO add your handling code here:
-//        GetData_View();
-    }//GEN-LAST:event_datatableKeyReleased
-
     private void btneditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditActionPerformed
         // TODO add your handling code here:
         
@@ -428,44 +463,50 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtnamaActionPerformed
 
-    private void txtusernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtusernameActionPerformed
-
-    private void txtusernameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtusernameKeyTyped
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_txtusernameKeyTyped
-
     private void btncancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelActionPerformed
         // TODO add your handling code here:
 //        btnadd.doClick();
     }//GEN-LAST:event_btncancelActionPerformed
 
-    private void txtstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtstatusActionPerformed
+    private void cmbid_statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbid_statusActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtstatusActionPerformed
+    }//GEN-LAST:event_cmbid_statusActionPerformed
 
-    private void txtkerjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtkerjaActionPerformed
+    private void txtunitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtunitActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtkerjaActionPerformed
+    }//GEN-LAST:event_txtunitActionPerformed
 
-    private void txtkerjaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtkerjaKeyTyped
+    private void txtunitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtunitKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtkerjaKeyTyped
+    }//GEN-LAST:event_txtunitKeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-//        GetData();
+        GetData();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void txt_barangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_barangActionPerformed
+    private void txtkodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtkodeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_barangActionPerformed
+    }//GEN-LAST:event_txtkodeActionPerformed
 
-    private void txt_barang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_barang1ActionPerformed
+    private void txtjumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtjumlahActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_barang1ActionPerformed
+    }//GEN-LAST:event_txtjumlahActionPerformed
+
+    private void datatableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datatableMouseClicked
+        // TODO add your handling code here:
+        GetData_View();
+    }//GEN-LAST:event_datatableMouseClicked
+
+    private void datatableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datatableMouseReleased
+        // TODO add your handling code here:
+        GetData_View();
+    }//GEN-LAST:event_datatableMouseReleased
+
+    private void datatableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_datatableKeyReleased
+        // TODO add your handling code here:
+        GetData_View();
+    }//GEN-LAST:event_datatableKeyReleased
 
     /**
      * @param args the command line arguments
@@ -495,10 +536,15 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmDaftarPermintaan().setVisible(true);
-            }
+       java.awt.EventQueue.invokeLater(() -> {
+            FrmDaftarPermintaan dialog = new FrmDaftarPermintaan(new javax.swing.JFrame(), true);
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
         });
     }
 
@@ -507,12 +553,12 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
     private javax.swing.JButton btndelete;
     private javax.swing.JButton btnedit;
     private javax.swing.JButton btnsave;
+    private javax.swing.JComboBox<String> cmbid_status;
     private javax.swing.JTable datatable;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -523,13 +569,11 @@ public class FrmDaftarPermintaan extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_action;
     private javax.swing.JLabel lblcount_rows;
     private javax.swing.JPanel panel;
-    private javax.swing.JTextField txt_barang;
-    private javax.swing.JTextField txt_barang1;
     private javax.swing.JTextPane txtid;
-    private javax.swing.JTextField txtkerja;
+    private javax.swing.JTextField txtjumlah;
+    private javax.swing.JTextField txtkode;
     private javax.swing.JTextField txtnama;
-    private javax.swing.JComboBox<String> txtstatus;
     private javax.swing.JTextField txttemp_username;
-    private javax.swing.JTextField txtusername;
+    private javax.swing.JTextField txtunit;
     // End of variables declaration//GEN-END:variables
 }

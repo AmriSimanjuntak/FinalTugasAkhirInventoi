@@ -279,7 +279,7 @@ public class FrmmainUser extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-//        new FrmtransaksiKeluar(this, rootPaneCheckingEnabled).show();
+        new FrmHistoriPermintaan(this, rootPaneCheckingEnabled).show();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked

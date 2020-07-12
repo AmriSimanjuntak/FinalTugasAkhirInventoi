@@ -28,8 +28,7 @@ public class Frmuser extends javax.swing.JDialog {
 
     /**
      * Creates new form Frmuser
-     * @param parent
-     * @param modal
+     * 
      */
     inventori_barang.koneksi konek = new inventori_barang.koneksi();
     inventori_barang.UserSession UserSession = new inventori_barang.UserSession();
