@@ -51,7 +51,7 @@ public class FrmPermintaan extends javax.swing.JDialog {
         Calendar cal = Calendar.getInstance();
         
         txttgl.setText(dateFormat.format(cal.getTime()));
-        txtid_status.setText("1");
+        txtid_status.setText("menunggu");
         txtnm_user.setText(UserSession.getU_nama());
         txtid_user.setText(Integer.toString(UserSession.getU_id()));
         
@@ -72,7 +72,7 @@ public class FrmPermintaan extends javax.swing.JDialog {
     private void TxtEmpty(){
         TableEmpty();
         BtnEnabled(false);
-        lblnama_barang.setText("-");
+        txtkode_barang.setText("-");
         txtid_selected.setText("");
         txtid_user.hide();
         txtid_barang.hide();
@@ -122,8 +122,8 @@ public class FrmPermintaan extends javax.swing.JDialog {
         txtjumlah_barang = new javax.swing.JTextField();
         btnok = new javax.swing.JButton();
         btnTableEmpty = new javax.swing.JButton();
-        lblnama_barang = new javax.swing.JLabel();
-        txtkode_barang = new javax.swing.JTextField();
+        txtkode_barang = new javax.swing.JLabel();
+        lblnama_barang = new javax.swing.JTextField();
         txtid_barang = new javax.swing.JTextField();
         txtjumlah_barang_max = new javax.swing.JTextField();
         btnDelRow = new javax.swing.JButton();
@@ -172,7 +172,7 @@ public class FrmPermintaan extends javax.swing.JDialog {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel3.setForeground(new java.awt.Color(245, 245, 245));
 
-        jLabel4.setText("Kode Barang");
+        jLabel4.setText("Nama Barang");
 
         jLabel6.setText("Jumlah");
 
@@ -197,11 +197,11 @@ public class FrmPermintaan extends javax.swing.JDialog {
             }
         });
 
-        lblnama_barang.setText("Nama Barang");
+        txtkode_barang.setText("Kode Barang");
 
-        txtkode_barang.addFocusListener(new java.awt.event.FocusAdapter() {
+        lblnama_barang.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtkode_barangFocusLost(evt);
+                lblnama_barangFocusLost(evt);
             }
         });
 
@@ -256,9 +256,9 @@ public class FrmPermintaan extends javax.swing.JDialog {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(41, 41, 41)
-                        .addComponent(txtkode_barang, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblnama_barang, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblnama_barang, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtkode_barang, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
                         .addComponent(txtid_barang, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
@@ -285,8 +285,8 @@ public class FrmPermintaan extends javax.swing.JDialog {
                     .addComponent(jLabel6)
                     .addComponent(txtjumlah_barang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnok)
-                    .addComponent(lblnama_barang)
-                    .addComponent(txtkode_barang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtkode_barang)
+                    .addComponent(lblnama_barang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtid_barang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtjumlah_barang_max, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(276, 276, 276)
@@ -394,8 +394,8 @@ public class FrmPermintaan extends javax.swing.JDialog {
     private void btnokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnokActionPerformed
         // TODO add your handling code here:
         String data1 = txtid_barang.getText();
-        String data2 = txtkode_barang.getText();
-        String data3 = lblnama_barang.getText();
+        String data2 = lblnama_barang.getText();
+        String data3 = txtkode_barang.getText();
         String data4 = txtjumlah_barang.getText();
 
         if(!(data1.equals("")) && !(data2.equals("")) && !(data3.equals("")) && !(data4.equals(""))){
@@ -406,11 +406,11 @@ public class FrmPermintaan extends javax.swing.JDialog {
                 DefaultTableModel model = (DefaultTableModel) datatable.getModel();
                 model.addRow(row);
                 txtid_barang.setText("");
-                txtkode_barang.setText("");
-                lblnama_barang.setText("-");
+                lblnama_barang.setText("");
+                txtkode_barang.setText("-");
                 txtjumlah_barang.setText("");
                 txtjumlah_barang_max.setText("");
-                txtkode_barang.requestFocus();
+                lblnama_barang.requestFocus();
             }else{
                 JOptionPane.showMessageDialog(null, "Jumlah melebihi stok barang.");
             }
@@ -427,9 +427,9 @@ public class FrmPermintaan extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnTableEmptyActionPerformed
 
-    private void txtkode_barangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtkode_barangFocusLost
+    private void lblnama_barangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblnama_barangFocusLost
         // TODO add your handling code here:
-        String kode = txtkode_barang.getText();
+        String kode = lblnama_barang.getText();
         if(!kode.equals("")){
 
             //--------- Cek In jtable
@@ -446,16 +446,16 @@ public class FrmPermintaan extends javax.swing.JDialog {
                 try {
                     Connection conn = konek.openkoneksi();
                     java.sql.Statement stm = conn.createStatement();
-                    java.sql.ResultSet sql = stm.executeQuery("SELECT * FROM tmbarang WHERE kode='"+kode+"'");
+                    java.sql.ResultSet sql = stm.executeQuery("SELECT * FROM tmbarang WHERE nama='"+kode+"'");
                     if(sql.next()){
                         txtid_barang.setText(sql.getString("id"));
-                        lblnama_barang.setText(sql.getString("nama"));
+                        txtkode_barang.setText(sql.getString("kode"));
                         txtjumlah_barang_max.setText(sql.getString("stok"));
                     }else{
-                        JOptionPane.showMessageDialog(null, "Kode barang tidak ditemukan.");
+                        JOptionPane.showMessageDialog(null, "Nama barang tidak ditemukan.");
                         txtid_barang.setText("");
-                        lblnama_barang.setText("-");
-                        txtkode_barang.setText("");
+                        txtkode_barang.setText("-");
+                        lblnama_barang.setText("");
                         txtjumlah_barang_max.setText("");
                     }
                     konek.closekoneksi();
@@ -465,15 +465,15 @@ public class FrmPermintaan extends javax.swing.JDialog {
                     Logger.getLogger(FrmPermintaan.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                JOptionPane.showMessageDialog(null, "Kode barang sudah pernah ditambah.");
-                txtkode_barang.setText("");
+                JOptionPane.showMessageDialog(null, "Nama barang sudah pernah ditambah.");
+                lblnama_barang.setText("");
             }
         }else{
             txtid_barang.setText("");
-            lblnama_barang.setText("-");
+            txtkode_barang.setText("-");
             txtjumlah_barang_max.setText("");
         }
-    }//GEN-LAST:event_txtkode_barangFocusLost
+    }//GEN-LAST:event_lblnama_barangFocusLost
 
     private void btnDelRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelRowActionPerformed
         // TODO add your handling code here:
@@ -509,7 +509,7 @@ public class FrmPermintaan extends javax.swing.JDialog {
             try {
                 Connection conn = konek.openkoneksi();
                 java.sql.Statement stm = conn.createStatement();
-                stm.executeUpdate("INSERT INTO tmpermintaan(tgl, id_user, id_status_permintaan) VALUES ('" + row_tgl + "', '" + row_iduser + "', '" + row_idstatus + "')");
+                stm.executeUpdate("INSERT INTO tmpermintaan(tgl, id_user, status_permintaan) VALUES ('" + row_tgl + "', '" + row_iduser + "', '" + row_idstatus + "')");
                 konek.closekoneksi();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error " + e);
@@ -575,7 +575,7 @@ public class FrmPermintaan extends javax.swing.JDialog {
                     try {
                         Connection conn = konek.openkoneksi();
                         java.sql.Statement stm = conn.createStatement();
-                        stm.executeUpdate("INSERT INTO tmpermintaan_detail(id_permintaan, id_barang, jumlah, id_status_permintaan, id_user) VALUES ('" + id_permintaan + "', '" + id + "', '" + jumlah + "', '" + row_idstatus + "', '" + row_iduser + "')");
+                        stm.executeUpdate("INSERT INTO tmpermintaan_detail(id_permintaan, id_barang, jumlah, status_permintaan, id_user) VALUES ('" + id_permintaan + "', '" + id + "', '" + jumlah + "', '" + row_idstatus + "', '" + row_iduser + "')");
                         empty = 1;
                         konek.closekoneksi();
                     } catch (SQLException e) {
@@ -690,14 +690,14 @@ public class FrmPermintaan extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblnama_barang;
+    private javax.swing.JTextField lblnama_barang;
     private javax.swing.JTextField txtid_barang;
     private javax.swing.JTextField txtid_selected;
     private javax.swing.JTextField txtid_status;
     private javax.swing.JTextField txtid_user;
     private javax.swing.JTextField txtjumlah_barang;
     private javax.swing.JTextField txtjumlah_barang_max;
-    private javax.swing.JTextField txtkode_barang;
+    private javax.swing.JLabel txtkode_barang;
     private javax.swing.JTextField txtnm_user;
     private javax.swing.JTextField txttgl;
     // End of variables declaration//GEN-END:variables

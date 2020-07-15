@@ -408,7 +408,7 @@ public class FrmbarangKategori extends javax.swing.JDialog {
                     lbl_action.setText("Edit Data | " + kode);
                     txtid.setText(sql.getString("id"));
                     txtnama.setText(sql.getString("nama"));
-                    txtno_rak.setText(sql.getString("no_rak"));
+                    txtno_rak.setText(sql.getString("No_barang"));
                     txttemp_nama.setText(kode);
                     txtnama.requestFocus();
                 }

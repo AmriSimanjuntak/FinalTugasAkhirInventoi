@@ -12,6 +12,7 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -72,8 +73,14 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
         txtnama.setText("");
         txtunit.setText("");
         txtkode.setText("");
+        txtid_barang.setText("");
+        txtid_user.setText("");
+        txtid_detail    .setText("");
+        txtnamabarang.setText("");
         txtjumlah.setText("");
+        txttanggal.setText("");
         cmbid_status.setSelectedItem("Pilih");
+        
     }
     
     private void BtnEnabled(boolean x){
@@ -83,7 +90,7 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
         try {
             Connection conn = konek.openkoneksi();
             java.sql.Statement stm = conn.createStatement();
-            java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmuser.nama as nama, tmuser.unit as unit, tmpermintaan_detail.jumlah as jumlah, tmstatus.status as status FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang JOIN tmstatus ON tmstatus.id_status_permintaan = tmpermintaan_detail.id_status_permintaan JOIN tmuser ON tmuser.id = tmpermintaan_detail.id_user");
+            java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmuser.nama as nama, tmuser.unit as unit, tmpermintaan_detail.jumlah as jumlah, tmpermintaan_detail.status_permintaan as status FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang JOIN tmuser ON tmuser.id = tmpermintaan_detail.id_user");
             datatable.setModel(DbUtils.resultSetToTableModel(sql));
             datatable.getColumnModel().getColumn(0).setPreferredWidth(35);
             datatable.getColumnModel().getColumn(1).setPreferredWidth(60);
@@ -137,6 +144,10 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
         txtunit = new javax.swing.JTextField();
         txtkode = new javax.swing.JTextField();
         txtjumlah = new javax.swing.JTextField();
+        txttanggal = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtnamabarang = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtid = new javax.swing.JTextPane();
@@ -148,6 +159,9 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
                 return false;
             }
         };
+        txtid_barang = new javax.swing.JTextField();
+        txtid_user = new javax.swing.JTextField();
+        txtid_detail = new javax.swing.JTextField();
 
         jPanel1.setBackground(new java.awt.Color(43, 152, 240));
 
@@ -198,7 +212,7 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
 
         jLabel6.setText("Unit Kerja");
 
-        cmbid_status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Menunggu", "Disetujui", "Ditolak" }));
+        cmbid_status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "menunggu", "disetujui", "ditolak" }));
         cmbid_status.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbid_statusActionPerformed(evt);
@@ -219,6 +233,14 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
 
         txtjumlah.setEnabled(false);
 
+        txttanggal.setEnabled(false);
+
+        jLabel12.setText("Tanggal");
+
+        txtnamabarang.setEnabled(false);
+
+        jLabel13.setText("Nama Barang");
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -229,52 +251,65 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                                .addComponent(cmbid_status, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(15, 15, 15))
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbid_status, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnsave, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1))
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel1))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtjumlah)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtnamabarang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                            .addComponent(txtunit)
                             .addComponent(txtnama, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtunit, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtkode))))
+                            .addComponent(txtkode, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txttanggal, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtjumlah))))
                 .addContainerGap())
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtnama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtunit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(txtkode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txttanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtkode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtnamabarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11)
                     .addComponent(txtjumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbid_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnsave)
-                .addGap(51, 51, 51))
+                .addGap(27, 27, 27))
         );
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
@@ -324,21 +359,35 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(datatable);
 
+        txtid_barang.setEnabled(false);
+
+        txtid_user.setEnabled(false);
+
+        txtid_detail.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(btnedit)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 319, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(86, 86, 86)
                 .addComponent(lbl_action)
                 .addGap(227, 227, 227))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(776, 776, 776)
+                        .addComponent(txtid_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtid_user, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(txtid_barang, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(7, 7, 7)
@@ -347,7 +396,7 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
                         .addGroup(layout.createSequentialGroup()
                             .addGap(27, 27, 27)
                             .addComponent(lblcount_rows, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
                             .addComponent(jLabel7)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -361,7 +410,12 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(118, 118, 118)
+                .addGap(96, 96, 96)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtid_barang, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtid_user, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtid_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnedit, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,21 +423,25 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(128, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(66, 66, 66)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(txttemp_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(47, 47, 47)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(348, 348, 348)
+                            .addComponent(txttemp_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(47, 47, 47))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(15, 15, 15)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(lblcount_rows)
                         .addComponent(jLabel7)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(40, Short.MAX_VALUE)))
         );
 
         pack();
@@ -396,13 +454,18 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
                 btnsave.setText("Simpan Perubahan");
                 Connection conn = konek.openkoneksi();
                 java.sql.Statement stm = conn.createStatement();
-                java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmuser.nama as nama, tmuser.unit as unit, tmpermintaan_detail.jumlah as jumlah, tmstatus.status as status FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang JOIN tmstatus ON tmstatus.id_status_permintaan = tmpermintaan_detail.id_status_permintaan JOIN tmuser ON tmuser.id = tmpermintaan_detail.id_user WHERE tmpermintaan.id='"+row_id+"'");
+                java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmpermintaan_detail.id_barang as id_barang, tmpermintaan_detail.id_user as id_user, tmpermintaan_detail.id as id_detail, tmbarang.nama as nama_barang, tmuser.nama as nama, tmuser.unit as unit, tmpermintaan_detail.jumlah as jumlah, tmpermintaan_detail.status_permintaan as status FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang JOIN tmuser ON tmuser.id = tmpermintaan_detail.id_user WHERE tmpermintaan.id='"+row_id+"'");
                 if(sql.next()){
                     lbl_action.setForeground(new Color(43, 152, 240));                    
                     txtid.setText(sql.getString("id"));
                     txtnama.setText(sql.getString("nama"));
                     txtunit.setText(sql.getString("unit"));
+                    txttanggal.setText(sql.getString("tgl"));
                     txtkode.setText(sql.getString("kode_barang"));
+                    txtid_barang.setText(sql.getString("id_barang"));    
+                    txtid_user.setText(sql.getString("id_user"));
+                    txtid_detail.setText(sql.getString("id_detail"));
+                    txtnamabarang.setText(sql.getString("nama_barang"));
                     txtjumlah.setText(sql.getString("jumlah"));
                     cmbid_status.setSelectedItem(sql.getString("status"));
                     txtnama.requestFocus();
@@ -418,14 +481,6 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
         }
         
     }//GEN-LAST:event_btneditActionPerformed
-
-    private void btnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveActionPerformed
-      
-    }//GEN-LAST:event_btnsaveActionPerformed
-
-    private void cmbid_statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbid_statusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbid_statusActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -445,6 +500,62 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
         // TODO add your handling code here:
         GetData_View();
     }//GEN-LAST:event_datatableKeyReleased
+
+    private void cmbid_statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbid_statusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbid_statusActionPerformed
+
+    private void btnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveActionPerformed
+        String row_id = txtid.getText();
+        String row_txttemp_username = txttemp_username.getText();
+        String row_txtnama = txtnama.getText();
+        String row_txtunit = txtunit.getText();
+        String row_txttanggal = txttanggal.getText();
+        String row_txtkode = txtkode.getText();
+        String row_txtidbarang = txtid_barang.getText();
+        String row_txtiduser = txtid_user.getText();
+        String row_txtiddetail = txtid_detail.getText();
+        String row_txtnamabarang = txtnamabarang.getText();
+        String row_txtjumlah = txtjumlah.getText();
+        String row_txtstatus = cmbid_status.getSelectedItem().toString();
+        int c_kode = 0;
+
+        if(!"".equals(row_txtstatus) && !"".equals(row_txtiduser) && !"".equals(row_txttanggal)){
+            try {
+                Connection conn = konek.openkoneksi();
+                java.sql.Statement stm = conn.createStatement();
+                java.sql.ResultSet sql = stm.executeQuery("SELECT COUNT(tmpermintaan.id) as count FROM tmpermintaan WHERE tmpermintaan.tgl='"+row_txtiduser+"'");
+                sql.next();
+                c_kode = sql.getInt("count");
+                konek.closekoneksi();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error " + e);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if("".equals(row_id)){
+            if(c_kode == 0 || row_txtnama.equals(row_txttemp_username))
+            {
+                try {
+                    Connection conn = konek.openkoneksi();
+                    java.sql.Statement stm = conn.createStatement();
+                    stm.executeUpdate("UPDATE tmpermintaan SET tgl='" + row_txttanggal + "',id_user='" + row_txtiduser+ "',status_permintaan='" + row_txtstatus+ "' WHERE id = '" + row_id + "'");
+                    JOptionPane.showMessageDialog(null, "Berhasil mengubah data.");
+                    btnedit.doClick();
+                    konek.closekoneksi();
+                    GetData();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error " + e);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                        JOptionPane.showMessageDialog(null, "Gagal Update.", "Gagal Disimpan", JOptionPane.ERROR_MESSAGE);
+                    }
+        }
+        }
+            
+    }//GEN-LAST:event_btnsaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -495,6 +606,8 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -506,9 +619,14 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
     private javax.swing.JLabel lblcount_rows;
     private javax.swing.JPanel panel;
     private javax.swing.JTextPane txtid;
+    private javax.swing.JTextField txtid_barang;
+    private javax.swing.JTextField txtid_detail;
+    private javax.swing.JTextField txtid_user;
     private javax.swing.JTextField txtjumlah;
     private javax.swing.JTextField txtkode;
     private javax.swing.JTextField txtnama;
+    private javax.swing.JTextField txtnamabarang;
+    private javax.swing.JTextField txttanggal;
     private javax.swing.JTextField txttemp_username;
     private javax.swing.JTextField txtunit;
     // End of variables declaration//GEN-END:variables

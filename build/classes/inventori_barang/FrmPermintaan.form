@@ -183,9 +183,9 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                          <Component id="txtkode_barang" min="-2" pref="137" max="-2" attributes="0"/>
+                          <Component id="lblnama_barang" min="-2" pref="137" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lblnama_barang" min="-2" pref="145" max="-2" attributes="0"/>
+                          <Component id="txtkode_barang" min="-2" pref="145" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="txtid_barang" min="-2" pref="24" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
@@ -218,8 +218,8 @@
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtjumlah_barang" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnok" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblnama_barang" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtkode_barang" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblnama_barang" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtid_barang" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtjumlah_barang_max" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -244,7 +244,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Kode Barang"/>
+            <Property name="text" type="java.lang.String" value="Nama Barang"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
@@ -276,14 +276,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTableEmptyActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblnama_barang">
+        <Component class="javax.swing.JLabel" name="txtkode_barang">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Nama Barang"/>
+            <Property name="text" type="java.lang.String" value="Kode Barang"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtkode_barang">
+        <Component class="javax.swing.JTextField" name="lblnama_barang">
           <Events>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtkode_barangFocusLost"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="lblnama_barangFocusLost"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtid_barang">
