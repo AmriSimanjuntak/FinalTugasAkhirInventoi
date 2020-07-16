@@ -73,7 +73,7 @@ public class FrmHistoriPermintaan extends javax.swing.JDialog {
         try {
             Connection conn = konek.openkoneksi();
             java.sql.Statement stm = conn.createStatement();
-            java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmpermintaan_detail.jumlah as jumlah, tmpermintaan.status_permintaan FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang WHERE tmpermintaan.id_user='"+row_id+"'");
+            java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmpermintaan_detail.jumlah as jumlah, tmstatus.status as status_permintaan FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang JOIN tmstatus ON tmstatus.id_status_permintaan = tmpermintaan.status_permintaan WHERE tmpermintaan.id_user='"+row_id+"'");
             datatable.setModel(DbUtils.resultSetToTableModel(sql));
             datatable.getColumnModel().getColumn(0).setPreferredWidth(35);
             datatable.getColumnModel().getColumn(1).setPreferredWidth(100);

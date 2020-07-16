@@ -51,7 +51,7 @@ public class FrmPermintaan extends javax.swing.JDialog {
         Calendar cal = Calendar.getInstance();
         
         txttgl.setText(dateFormat.format(cal.getTime()));
-        txtid_status.setText("menunggu");
+        txtid_status.setText("1");
         txtnm_user.setText(UserSession.getU_nama());
         txtid_user.setText(Integer.toString(UserSession.getU_id()));
         
@@ -575,7 +575,7 @@ public class FrmPermintaan extends javax.swing.JDialog {
                     try {
                         Connection conn = konek.openkoneksi();
                         java.sql.Statement stm = conn.createStatement();
-                        stm.executeUpdate("INSERT INTO tmpermintaan_detail(id_permintaan, id_barang, jumlah, status_permintaan, id_user) VALUES ('" + id_permintaan + "', '" + id + "', '" + jumlah + "', '" + row_idstatus + "', '" + row_iduser + "')");
+                        stm.executeUpdate("INSERT INTO tmpermintaan_detail(id_permintaan, id_barang, jumlah) VALUES ('" + id_permintaan + "', '" + id + "', '" + jumlah + "')");
                         empty = 1;
                         konek.closekoneksi();
                     } catch (SQLException e) {

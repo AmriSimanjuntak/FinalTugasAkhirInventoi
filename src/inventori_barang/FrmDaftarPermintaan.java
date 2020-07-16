@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -90,7 +91,7 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
         try {
             Connection conn = konek.openkoneksi();
             java.sql.Statement stm = conn.createStatement();
-            java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmuser.nama as nama, tmuser.unit as unit, tmpermintaan_detail.jumlah as jumlah, tmpermintaan_detail.status_permintaan as status FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang JOIN tmuser ON tmuser.id = tmpermintaan_detail.id_user");
+            java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmuser.nama as nama, tmuser.unit as unit, tmpermintaan_detail.jumlah as jumlah, tmstatus.status as status FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang JOIN tmuser ON tmuser.id = tmpermintaan.id_user JOIN tmstatus ON tmstatus.id_status_permintaan = tmpermintaan.status_permintaan");
             datatable.setModel(DbUtils.resultSetToTableModel(sql));
             datatable.getColumnModel().getColumn(0).setPreferredWidth(35);
             datatable.getColumnModel().getColumn(1).setPreferredWidth(60);
@@ -454,7 +455,7 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
                 btnsave.setText("Simpan Perubahan");
                 Connection conn = konek.openkoneksi();
                 java.sql.Statement stm = conn.createStatement();
-                java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmpermintaan_detail.id_barang as id_barang, tmpermintaan_detail.id_user as id_user, tmpermintaan_detail.id as id_detail, tmbarang.nama as nama_barang, tmuser.nama as nama, tmuser.unit as unit, tmpermintaan_detail.jumlah as jumlah, tmpermintaan_detail.status_permintaan as status FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang JOIN tmuser ON tmuser.id = tmpermintaan_detail.id_user WHERE tmpermintaan.id='"+row_id+"'");
+                java.sql.ResultSet sql = stm.executeQuery("SELECT tmpermintaan.id, tmpermintaan.tgl, tmbarang.kode as kode_barang, tmpermintaan_detail.id_barang as id_barang, tmpermintaan.id_user, tmpermintaan_detail.id as id_detail, tmbarang.nama as nama_barang, tmuser.nama as nama, tmuser.unit as unit, tmpermintaan_detail.jumlah as jumlah, tmstatus.status as status FROM tmpermintaan_detail JOIN tmpermintaan ON tmpermintaan_detail.id_permintaan = tmpermintaan.id JOIN tmbarang ON tmbarang.id = tmpermintaan_detail.id_barang JOIN tmuser ON tmuser.id = tmpermintaan.id_user JOIN tmstatus ON tmstatus.id_status_permintaan = tmpermintaan.status_permintaan WHERE tmpermintaan.id='"+row_id+"'");
                 if(sql.next()){
                     lbl_action.setForeground(new Color(43, 152, 240));                    
                     txtid.setText(sql.getString("id"));
@@ -512,34 +513,38 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
         String row_txtunit = txtunit.getText();
         String row_txttanggal = txttanggal.getText();
         String row_txtkode = txtkode.getText();
-        String row_txtidbarang = txtid_barang.getText();
+//        String row_txtidbarang = txtid_barang.getText();
         String row_txtiduser = txtid_user.getText();
-        String row_txtiddetail = txtid_detail.getText();
+//        String row_txtiddetail = txtid_detail.getText();
         String row_txtnamabarang = txtnamabarang.getText();
         String row_txtjumlah = txtjumlah.getText();
         String row_txtstatus = cmbid_status.getSelectedItem().toString();
         int c_kode = 0;
+//        String id, kode;
+//        Integer id_barang_keluar = 0, jumlah, stok, not_found, empty = 0;
+//        DefaultTableModel model = (DefaultTableModel) datatable.getModel();
+//        int rowCount = model.getRowCount();
 
-        if(!"".equals(row_txtstatus) && !"".equals(row_txtiduser) && !"".equals(row_txttanggal)){
-            try {
-                Connection conn = konek.openkoneksi();
-                java.sql.Statement stm = conn.createStatement();
-                java.sql.ResultSet sql = stm.executeQuery("SELECT COUNT(tmpermintaan.id) as count FROM tmpermintaan WHERE tmpermintaan.tgl='"+row_txtiduser+"'");
-                sql.next();
-                c_kode = sql.getInt("count");
-                konek.closekoneksi();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error " + e);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if(!"".equals(row_txttanggal) && !"".equals(row_txtiduser) && !"".equals(row_txtstatus)){
+//            try {
+//                Connection conn = konek.openkoneksi();
+//                java.sql.Statement stm = conn.createStatement();
+//                java.sql.ResultSet sql = stm.executeQuery("SELECT COUNT(tmpermintaan.id) as count FROM tmpermintaan WHERE tmpermintaan.id_user='"+row_txtiduser+"'");
+//                sql.next();
+//                c_kode = sql.getInt("count");
+//                konek.closekoneksi();
+//            } catch (SQLException e) {
+//                JOptionPane.showMessageDialog(null, "Error " + e);
+//            } catch (ClassNotFoundException ex) {
+//                Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
+//            }
             if("".equals(row_id)){
             if(c_kode == 0 || row_txtnama.equals(row_txttemp_username))
             {
                 try {
                     Connection conn = konek.openkoneksi();
                     java.sql.Statement stm = conn.createStatement();
-                    stm.executeUpdate("UPDATE tmpermintaan SET tgl='" + row_txttanggal + "',id_user='" + row_txtiduser+ "',status_permintaan='" + row_txtstatus+ "' WHERE id = '" + row_id + "'");
+                    stm.executeUpdate("UPDATE tmpermintaan SET status_permintaan='" + row_txtstatus+ "' WHERE id = '" + row_id + "'");
                     JOptionPane.showMessageDialog(null, "Berhasil mengubah data.");
                     btnedit.doClick();
                     konek.closekoneksi();
@@ -553,7 +558,65 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(null, "Gagal Update.", "Gagal Disimpan", JOptionPane.ERROR_MESSAGE);
                     }
         }
+//                    try {
+//                Connection conn = konek.openkoneksi();
+//                java.sql.Statement stm = conn.createStatement();
+//                java.sql.ResultSet sql = stm.executeQuery("SELECT MAX(id) as max FROM tmpermintaan");
+//                sql.next();
+//                id_barang_keluar = sql.getInt("max");
+//                konek.closekoneksi();
+//            } catch (SQLException e) {
+//                JOptionPane.showMessageDialog(null, "Error " + e);
+//            } catch (ClassNotFoundException ex) {
+//                Logger.getLogger(Frmbarang.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+             
+//             for (int i = 0; i < rowCount; i++) {
+//                not_found = 0;
+//                stok = 0;
+//                id = (datatable.getModel().getValueAt(i, 0).toString());
+//                kode = (datatable.getModel().getValueAt(i, 1).toString());
+//                jumlah = Integer.parseInt((String) datatable.getModel().getValueAt(i, 3));
+//            
+//                    //------- Mengurangi stok dengan data jumlah
+//                try {
+//                    Connection conn = konek.openkoneksi();
+//                    java.sql.Statement stm = conn.createStatement();
+//                    java.sql.ResultSet sql = stm.executeQuery("SELECT stok FROM tmbarang WHERE id = '" + id + "'");
+//
+//                    sql.next();
+//                    sql.last();
+//                    if (sql.getRow() == 1){
+//                        stok = (sql.getInt("stok") - jumlah);
+//                    } else {
+//                       not_found = 1;
+//                    }
+//                    konek.closekoneksi();
+//                } catch (SQLException e) {
+//                    JOptionPane.showMessageDialog(null, "Error " + e);
+//                } catch (ClassNotFoundException ex) {
+//                    Logger.getLogger(FrmloginPetugas.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                if(not_found == 0){
+//                
+//                        //------- Mengupdate jumlah stok barang
+//                    try {
+//                        Connection conn = konek.openkoneksi();
+//                        java.sql.Statement stm = conn.createStatement();
+//                        stm.executeUpdate("UPDATE tmbarang SET stok='" + stok + "' WHERE id = '" + id + "'");
+//                        konek.closekoneksi();
+//                    } catch (SQLException e) {
+//                        JOptionPane.showMessageDialog(null, "Error " + e);
+//                    } catch (ClassNotFoundException ex) {
+//                        Logger.getLogger(Frmbarang.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//            }
+//             JOptionPane.showMessageDialog(null, "Berhasil menyimpan data transaksi");
+//             }
+//            }else{
+//            JOptionPane.showMessageDialog(null, "Terdapat inputan yang kosong.");
         }
+            
             
     }//GEN-LAST:event_btnsaveActionPerformed
 
