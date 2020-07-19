@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 /**
  *
- * @author muhamadyusuf
+ * @author amris
  */
 public class DialogBackground extends JPanel{
     private final Image image;

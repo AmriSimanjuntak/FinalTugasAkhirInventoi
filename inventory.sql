@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 16 Jul 2020 pada 07.53
+-- Waktu pembuatan: 19 Jul 2020 pada 16.15
 -- Versi server: 10.4.11-MariaDB
 -- Versi PHP: 7.3.15
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `inventori`
+-- Database: `inventory`
 --
 
 -- --------------------------------------------------------
@@ -42,19 +42,8 @@ CREATE TABLE `tmbarang` (
 --
 
 INSERT INTO `tmbarang` (`id`, `kode`, `nama`, `id_kategori`, `satuan`, `stok`) VALUES
-(5, 'A-005', 'Xiaomi TV', 1, 'Buah', 61),
-(7, 'S-022', 'LG', 1, 'Buah', 10),
-(9, 'S-021', 'Samsung 21 Inch', 1, 'Buah', 80),
-(10, 'A-011', 'Toshiba 20 Inch', 1, 'Buah', 10),
-(11, '90AB', 'LCD TV Samsung', 1, 'Buah', 90),
-(12, 'F-010', 'Samsung 24 Inch', 1, 'Buah', 80),
-(13, 'A-001', 'Simbada', 3, 'Buah', 70),
-(14, 'M-001', 'MacBook Pro 15 Inch', 6, 'Buah', 14),
-(15, 'M-002', 'MacBook Pro 17 Inch', 6, 'Buah', 19),
-(16, 'C-001', 'Acer Aspire One 15 Inch', 8, 'Buah', 15),
-(17, 'C-002', 'Acer Aspire One 18 Inch', 8, 'Buah', 6),
-(18, 'A-002', 'Simbada Type C3', 3, 'Buah', 68),
-(19, 'g32h13', 'PC34inc', 9, '2', 2);
+(22, 'AA', 'Kursi', 14, 'Buah', 200),
+(23, 'BB', 'Tisu', 13, 'Buah', 300);
 
 -- --------------------------------------------------------
 
@@ -73,16 +62,8 @@ CREATE TABLE `tmkategori` (
 --
 
 INSERT INTO `tmkategori` (`id`, `nama`, `no_rak`) VALUES
-(1, 'TV', 1),
-(2, 'DVD', 2),
-(3, 'Sound System', 10),
-(4, 'Joy Stick', 5),
-(5, 'MacBook', 3),
-(6, 'MacBook Pro', 3),
-(7, 'MacBook Air', 3),
-(8, 'Laptop', 4),
-(9, 'PC', 231),
-(10, 'Laptop ASUS', 6);
+(13, 'Barang Habis Pakai', 1),
+(14, 'Barang Tidak Habis Pakai', 2);
 
 -- --------------------------------------------------------
 
@@ -102,7 +83,10 @@ CREATE TABLE `tmpermintaan` (
 --
 
 INSERT INTO `tmpermintaan` (`id`, `tgl`, `id_user`, `status_permintaan`) VALUES
-(14, '2020-07-16', 2, 1);
+(14, '2020-07-16', 2, 3),
+(15, '2020-07-19', 2, 1),
+(16, '2020-07-19', 2, 3),
+(17, '2020-07-19', 7, 2);
 
 -- --------------------------------------------------------
 
@@ -122,7 +106,10 @@ CREATE TABLE `tmpermintaan_detail` (
 --
 
 INSERT INTO `tmpermintaan_detail` (`id`, `id_permintaan`, `id_barang`, `jumlah`) VALUES
-(13, 14, 7, 2);
+(13, 14, 7, 2),
+(14, 15, 21, 2),
+(15, 16, 21, 4),
+(16, 17, 21, 4);
 
 -- --------------------------------------------------------
 
@@ -190,7 +177,8 @@ INSERT INTO `tmuser` (`id`, `nama`, `username`, `password`, `unit`, `status`) VA
 (2, 'Melisa', 'melisa', '6d764e0722cf4852e77ac22bf76c97f9114d2d57', 'Dosen FITE', 'aktif'),
 (6, 'test', 'test', '495094f85ae8073b456c4b74a16feabbf8f1f0cc', 'dosen', 'aktif'),
 (7, 'herna', 'herna', 'c692b6e83d26e31d507049765d2e4b57976840a3', 'Dosen FITE', 'aktif'),
-(8, 'Togu', 'togu', '97d170e1550eee4afc0af065b78cda302a97674c', 'DosenFITE', 'nonaktif');
+(8, 'Togu', 'togu', '97d170e1550eee4afc0af065b78cda302a97674c', 'DosenFITE', 'nonaktif'),
+(9, 'Ike', 'ike', '97d170e1550eee4afc0af065b78cda302a97674c', 'Dosen FITE', 'nonaktif');
 
 --
 -- Indexes for dumped tables
@@ -250,25 +238,25 @@ ALTER TABLE `tmuser`
 -- AUTO_INCREMENT untuk tabel `tmbarang`
 --
 ALTER TABLE `tmbarang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT untuk tabel `tmkategori`
 --
 ALTER TABLE `tmkategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `tmpermintaan`
 --
 ALTER TABLE `tmpermintaan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `tmpermintaan_detail`
 --
 ALTER TABLE `tmpermintaan_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `tmpetugas`
@@ -286,7 +274,7 @@ ALTER TABLE `tmstatus`
 -- AUTO_INCREMENT untuk tabel `tmuser`
 --
 ALTER TABLE `tmuser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

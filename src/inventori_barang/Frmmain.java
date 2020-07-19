@@ -126,7 +126,6 @@ public final class Frmmain extends javax.swing.JFrame {
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -260,14 +259,6 @@ public final class Frmmain extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem3);
 
-        jMenuItem11.setText("Kategori Barang");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem11);
-
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Transaksi");
@@ -306,21 +297,6 @@ public final class Frmmain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-        new Frmbarang(this, rootPaneCheckingEnabled).show();
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        // TODO add your handling code here:
-        new FrmbarangKategori(this, rootPaneCheckingEnabled).show();
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
-
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        // TODO add your handling code here:
-        new Frmuser(this, rootPaneCheckingEnabled).show();
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
-
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
         // TODO add your handling code here:
         new FrmloginPetugas().setVisible(true);
@@ -357,15 +333,25 @@ public final class Frmmain extends javax.swing.JFrame {
         new Frmakun(this, rootPaneCheckingEnabled).show();
     }//GEN-LAST:event_jMenu1MouseClicked
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        new FrmDaftarPermintaan(this, rootPaneCheckingEnabled).show();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        new Frmbarang(this, rootPaneCheckingEnabled).show();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         new Frmpetugas(this, rootPaneCheckingEnabled).show();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         // TODO add your handling code here:
-        new FrmDaftarPermintaan(this, rootPaneCheckingEnabled).show();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+        new Frmuser(this, rootPaneCheckingEnabled).show();
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     
     /**
@@ -414,7 +400,6 @@ public final class Frmmain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;

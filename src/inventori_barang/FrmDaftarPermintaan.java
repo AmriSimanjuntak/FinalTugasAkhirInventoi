@@ -515,6 +515,17 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
     private void btnterimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnterimaActionPerformed
      String row_id = txtid.getText();
      String row_status = cmbid_status.getText();
+     int row_jumlah = Integer.parseInt(txtjumlah.getText());
+     String row_kode = txtkode.getText();
+     String row_idbarang = txtid_barang.getText();
+     
+     
+      String id, kode;
+      Integer id_barang_keluar = 0, jumlah, stok, not_found, empty = 0;
+        
+      DefaultTableModel model = (DefaultTableModel) datatable.getModel();
+      int rowCount = model.getRowCount();
+     
       if(!"0".equals(row_id)){
           try {
                 Connection conn = konek.openkoneksi();
@@ -529,20 +540,49 @@ public class FrmDaftarPermintaan extends javax.swing.JDialog {
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(Frmuser.class.getName()).log(Level.SEVERE, null, ex);
                 }
+          for (int i = 0; i < rowCount; i ++) {
+                not_found = 0;
+                stok = 0;
+                row_kode = txtkode.getText();
+                row_idbarang = txtid_barang.getText();
+                    //------- Mengurangi stok dengan data jumlah
+                try {
+                    Connection conn = konek.openkoneksi();
+                    java.sql.Statement stm = conn.createStatement();
+                    java.sql.ResultSet sql = stm.executeQuery("SELECT stok FROM tmbarang WHERE id = '" + row_idbarang + "'");
+
+                    sql.next();
+                    sql.last();
+                    if (sql.getRow() == 1){
+                        stok = (sql.getInt("stok") - row_jumlah);
+                    } else {
+                       not_found = 1;
+                    }
+                    konek.closekoneksi();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error " + e);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(FrmloginPetugas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                if(not_found == 0){
+                
+                        //------- Mengupdate jumlah stok barang
+                    try {
+                        Connection conn = konek.openkoneksi();
+                        java.sql.Statement stm = conn.createStatement();
+                        stm.executeUpdate("UPDATE tmbarang SET stok='" + stok + "' WHERE id = '" + row_idbarang + "'");
+                        konek.closekoneksi();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error " + e);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Frmbarang.class.getName()).log(Level.SEVERE, null, ex);
+                    }
              }else{
             JOptionPane.showMessageDialog(null, "Terdapat kesalahan id null!");
         }
-//        String row_txttemp_username = txttemp_username.getText();
-//        String row_txtnama = txtnama.getText();
-//        String row_txtunit = txtunit.getText();
-//        String row_txttanggal = txttanggal.getText();
-//        String row_txtkode = txtkode.getText();
-//        String row_txtidbarang = txtid_barang.getText();
-//        String row_txtiduser = txtid_user.getText();
-//        String row_txtiddetail = txtid_detail.getText();
-//        String row_txtnamabarang = txtnamabarang.getText();
-//        String row_txtjumlah = txtjumlah.getText();
-           
+          }
+      }
             
     }//GEN-LAST:event_btnterimaActionPerformed
 
