@@ -21,26 +21,26 @@ public class FrmakunTest {
     public FrmakunTest() {
     }
     
-    @BeforeClass
+
     public static void setUpClass() {
     }
     
-    @AfterClass
+
     public static void tearDownClass() {
     }
     
-    @Before
+
     public void setUp() {
     }
     
-    @After
+
     public void tearDown() {
     }
 
     /**
      * Test of sha1 method, of class Frmakun.
      */
-    @Test
+
     public void testSha1() throws Exception {
         System.out.println("sha1");
         String input = "";
@@ -54,7 +54,7 @@ public class FrmakunTest {
     /**
      * Test of main method, of class Frmakun.
      */
-    @Test
+
     public void testMain() {
         System.out.println("main");
         String[] args = null;

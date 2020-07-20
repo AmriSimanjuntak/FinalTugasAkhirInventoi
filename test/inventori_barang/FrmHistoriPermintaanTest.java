@@ -21,15 +21,15 @@ public class FrmHistoriPermintaanTest {
     public FrmHistoriPermintaanTest() {
     }
     
-    @BeforeClass
+
     public static void setUpClass() {
     }
     
-    @AfterClass
+
     public static void tearDownClass() {
     }
     
-    @Before
+  
     public void setUp() {
     }
     
@@ -40,7 +40,7 @@ public class FrmHistoriPermintaanTest {
     /**
      * Test of sha1 method, of class FrmHistoriPermintaan.
      */
-    @Test
+
     public void testSha1() throws Exception {
         System.out.println("sha1");
         String input = "";
@@ -52,7 +52,7 @@ public class FrmHistoriPermintaanTest {
     /**
      * Test of main method, of class FrmHistoriPermintaan.
      */
-    @Test
+
     public void testMain() {
         System.out.println("main");
         String[] args = null;
